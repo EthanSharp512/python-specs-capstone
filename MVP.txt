@@ -1,0 +1,11 @@
+MVP
+
+Pitch: An application where users can create instances of past events and link/post footage to the concerts they have been to. 
+
+
+MVP:
+1 - Allow users to create a profile (login/log out).
+2 - Make instances of concerts or events (location/date and time/name of event).
+3 - Give searchable details of event (artist, genre, event type) to organize data and events users have attended.
+4 - Post links, pictures, or footage of the event with a caption.
+5 - Make posts public or private for other users to see on a homepage.
