@@ -1,4 +1,8 @@
+import imp
+from os import environ
+
 from enum import auto, unique
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -25,3 +29,18 @@ class Genre(db.Model):
 
 class Subgenre(db.Model):
     pass
+
+
+def connect_to_db(app):
+    """Connect the database to our Flask app."""
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = environ['URI']
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.app = app
+    db.init_app(app)
+
+if __name__ == "__main__":
+
+    from server import app
+    connect_to_db(app)
+    print("Connected to DB.")
