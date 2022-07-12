@@ -4,6 +4,7 @@ from enum import auto, unique
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
+from datetime import datetime
 
 
 db = SQLAlchemy()
@@ -16,7 +17,7 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(64), unique=True)
-    email = db.Column(db.String(255, unique=True))
+    email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(64))
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
@@ -70,11 +71,12 @@ class Event(db.Model):
     event_name = db.Column(db.String(128))
     artist = db.Column(db.String(64))
     location = db.Column(db.String(255))
-    # date = db.Column(db.datetime.date)
-    # public = db.Column(db.Boolean)
+    event_date = db.Column(db.DateTime)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    public = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    genre_id = db.Column(db.Integer, db,ForeignKey('genres.genre_id'))
-    sub_genre_id = db.Column(db.Integer, db,ForeignKey('subgenres.sub_genre_id'))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.genre_id'))
+    sub_genre_id = db.Column(db.Integer, db.ForeignKey('subgenres.sub_genre_id'))
 
     #Relationships to users, genres, and subgenres tables
     user = db.relationship("User", backref=db.backref("events", order_by=event_id))

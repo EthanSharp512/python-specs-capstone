@@ -1,4 +1,5 @@
 """I Was There"""
+from os import environ
 
 from jinja2 import StrictUndefined
 
@@ -9,7 +10,7 @@ from model import User, Genre, Subgenre, Event, Post, connect_to_db, db
 
 app = Flask(__name__)
 
-app.secret_key = "ABC"
+app.secret_key = environ["SECRET_KEY"]
 
 app.jinja_env.undefined = StrictUndefined
 
