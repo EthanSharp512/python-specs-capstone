@@ -6,8 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 
 
-app = Flask(__name__)
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
 class User(db.Model):
