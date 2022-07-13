@@ -32,8 +32,10 @@ def new_event():
         location = form.location.data
         event_date = form.event_date.data
         public = form.public.data
-        genre = form.genre.data
-        subgenre = form.subgenre.data
+        genre = request.form['genre']
+        subgenre = request.form['subgenre']
+        # genre = form.genre.data
+        # subgenre = form.subgenre.data
         
         new_event = Event(event_name, artist, location, event_date, public, genre, subgenre)
 

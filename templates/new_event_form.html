@@ -2,4 +2,52 @@
 
 {% block content %}
 
+    <div class="jumbotron">
+
+        <h1>Have a memory you want to share?</h1>
+        <p>Create an event to organize your content!</p>
+        <form action="{{url_for('new_event')}}" method="POST">
+            {{form.hidden_tag()}} <hr>
+            {{form.event_name.label}}{{form.event_name()}} <hr>
+            {{form.artist.label}}{{form.artist()}} <hr>
+            {{form.location.label}}{{form.location()}} <hr>
+            {{form.event_date.label}}{{form.event_date()}} <hr>
+            {{form.public.label}}{{form.public()}} <hr>
+            <select id="level1">
+                <option value="1">Alternative</option>
+                <option value="2">Blues</option>
+                <option value="3">Children's Music</option>
+                <option value="4">Classical</option>
+                <option value="5">Comedy</option>
+                <option value="6">Country</option>
+                <option value="7">Dance-EDM</option>
+                <option value="8">Easy Listening</option>
+                <option value="9">Electronic</option>
+                <option value="10">Hip-Hop/Rap</option>
+                <option value="11">Holiday</option>
+                <option value="12">Inserpational & Gospel</option>
+                <option value="13">J-Pop</option>
+                <option value="14">Jazz</option>
+                <option value="15">Latino</option>
+                <option value="16">Misc</option>
+                <option value="17">New Age</option>
+                <option value="18">Pop</option>
+                <option value="19">R&B-Soul</option>
+                <option value="20">Reggae</option>
+                <option value="21">Rock</option>
+                <option value="22">Singer-Songwriter</option>
+                <option value="23">Soundtrack</option>
+                <option value="24">Tex Mex-Tejano</option>
+                <option value="25">Vocal</option>
+                <option value="26">World</option>
+            </select>
+            <select id="level2"></select>
+
+            <!-- {{form.genre.label}}{{form.genre()}} <hr>
+            {{form.subgenre.label}}{{form.subgenre()}} <hr> -->
+            {{form.submit()}}
+        </form>
+      
+    </div>
+    <script src="../dropdown.js"></script>
 {% endblock %}

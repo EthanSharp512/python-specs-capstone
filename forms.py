@@ -8,7 +8,7 @@ class AddEventForm(FlaskForm):
     artist = StringField('Name of artist: ')
     location = StringField('Location of event: ')
     event_date = DateField('Date of event: ')
-    public = BooleanField('Post event privately or publicly: ')
+    public = BooleanField('Make event private: ')
     genre = SelectField('Select a genre: ')
     subgenre = SelectField('Select sub-genre if applicable: ')
     submit = SubmitField('Create Event')
