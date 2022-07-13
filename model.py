@@ -6,8 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from datetime import datetime
 
+app = Flask(__name__)
 
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 
 
 class User(db.Model):
@@ -21,6 +22,13 @@ class User(db.Model):
     password = db.Column(db.String(64))
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
+
+    def __init__(self, username, email, password, first_name, last_name):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.first_name = first_name
+        self.last_name = last_name
 
     def __repr__(self):
         return f"""<User user_id={self.user_id} 
@@ -83,6 +91,16 @@ class Event(db.Model):
     genre = db.relationship("Genre", backref=db.backref("events", order_by=event_id))
     sub_genre = db.relationship("Subgenre", backref=db.backref("events", order_by=event_id))
 
+    def __init__(self, event_name, artist, location, event_date, public, user_id, genre_id, sub_genre_id):
+        self.event_name = event_name
+        self.artist = artist
+        self.location = location
+        self.event_date = event_date
+        self.public = public
+        self.user_id = user_id
+        self.genre_id = genre_id
+        self.sub_genre_id = sub_genre_id
+
     def __repr__(self):
         return f"""<Event event_id={self.event_id} 
                    event_name={self.event_name} 
@@ -109,6 +127,12 @@ class Post(db.Model):
     #Relationships to events and users tables
     event = db.relationship("Event", backref=db.backref("events", order_by=post_id))
     user = db.relationship("User", backref=db.backref("posts", order_by=post_id))
+
+    def __init__(self, event_id, content_link, post_caption, user_id):
+        self.event_id = event_id
+        self.content_link = content_link
+        self.post_caption = post_caption
+        self.user_id = user_id
 
     def __repr__(self):
         return f"""<Post post_id={self.post_id} 
