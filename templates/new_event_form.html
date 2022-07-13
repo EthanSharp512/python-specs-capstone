@@ -6,6 +6,9 @@
 
         <h1>Have a memory you want to share?</h1>
         <p>Create an event to organize your content!</p>
+
+        <select id="level1"></select>
+
         <form action="{{url_for('new_event')}}" method="POST">
             {{form.hidden_tag()}} <hr>
             {{form.event_name.label}}{{form.event_name()}} <hr>
@@ -13,8 +16,9 @@
             {{form.location.label}}{{form.location()}} <hr>
             {{form.event_date.label}}{{form.event_date()}} <hr>
             {{form.public.label}}{{form.public()}} <hr>
+            <p>Select genre: </p>
             <select id="level1">
-                <option value="1">Alternative</option>
+                <!-- <option value="1">Alternative</option>
                 <option value="2">Blues</option>
                 <option value="3">Children's Music</option>
                 <option value="4">Classical</option>
@@ -39,15 +43,14 @@
                 <option value="23">Soundtrack</option>
                 <option value="24">Tex Mex-Tejano</option>
                 <option value="25">Vocal</option>
-                <option value="26">World</option>
-            </select>
-            <select id="level2"></select>
-
+                <option value="26">World</option> -->
+            </select><hr>
+            <p>Select sub-genre: </p>
+            <select id="level2"></select><hr>
             <!-- {{form.genre.label}}{{form.genre()}} <hr>
             {{form.subgenre.label}}{{form.subgenre()}} <hr> -->
             {{form.submit()}}
         </form>
       
     </div>
-    <script src="../dropdown.js"></script>
 {% endblock %}

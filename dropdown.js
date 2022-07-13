@@ -1,5 +1,4 @@
-const genres = [
-
+const data = [
     ['Alternative', 'Alternative Rock'],
     ['Alternative', 'College Rock'],
     ['Alternative', 'Experimental Rock'],
@@ -13,7 +12,6 @@ const genres = [
     ['Alternative', 'Punk'],
     ['Alternative', 'Shoegaze'],
     ['Alternative', 'Steampunk'],
-
     ['Blues','Acoustic Blues'],
     ['Blues','Chicago Blues'],
     ['Blues','Classic Blues'],
@@ -21,11 +19,9 @@ const genres = [
     ['Blues','Country Blues'],
     ['Blues','Delta Blues'],
     ['Blues','Electric Blues'],
-
     ["Children's Music", 'Lullabies'],
     ["Children's Music", 'Sing-Along'],
     ["Children's Music", 'Stories'],
-
     ['Classical', 'Avant-Garde'],
     ['Classical', 'Baroque'],
     ['Classical', 'Chamber Music'],
@@ -44,10 +40,8 @@ const genres = [
     ['Classical', 'Romantic'],
     ['Classical', 'Wedding Music'],
     ['Classical', 'Opera'],
-
     ['Comedy', 'Novelty'],
     ['Comedy', 'Standup Comedy'],
-
     ['Country', 'Alternative Country'],
     ['Country', 'Americana'],
     ['Country', 'Bluegrass'],
@@ -59,7 +53,6 @@ const genres = [
     ['Country', 'Traditional Bluegrass'],
     ['Country', 'Traditional Country'],
     ['Country', 'Urban Cowboy'],
-
     ['Dance-EDM', 'Breakbeat'],
     ['Dance-EDM', 'Dubstep'],
     ['Dance-EDM', 'Exercise'],
@@ -72,11 +65,9 @@ const genres = [
     ['Dance-EDM', 'Jungle/Drum and bass'],
     ['Dance-EDM', 'Techno'],
     ['Dance-EDM', 'Trance'],
-
     ["Easy Listening", 'Bop'],
     ["Easy Listening", 'Lounge'],
     ["Easy Listening", 'Swing'],
-
     ['Electronic', 'Ambient'],
     ['Electronic', 'Crunk'],
     ['Electronic', 'Downtempo'],
@@ -85,7 +76,6 @@ const genres = [
     ['Electronic', 'Electronic Rock'],
     ['Electronic', 'IDM/Experimental'],
     ['Electronic', 'Industrial'],
-
     ['Hip-Hop/Rap', 'Alternative Rap'],
     ['Hip-Hop/Rap', 'Bounce'],
     ['Hip-Hop/Rap', 'Dirty South'],
@@ -98,7 +88,6 @@ const genres = [
     ['Hip-Hop/Rap', 'Rap'],
     ['Hip-Hop/Rap', 'Underground Rap'],
     ['Hip-Hop/Rap', 'West Coast Rap'],
-
     ['Holiday', 'Chanukah'],
     ['Holiday', 'Christmas'],
     ['Holiday', 'Christmas-Children'],
@@ -114,7 +103,6 @@ const genres = [
     ['Holiday', 'Halloween'],
     ['Holiday', 'Holiday-Other'],
     ['Holiday', 'Thanksgiving'],
-
     ['Insperational & Gospel', 'CCM'],
     ['Insperational & Gospel', 'Christian Metal'],
     ['Insperational & Gospel', 'Christian Pop'],
@@ -128,12 +116,10 @@ const genres = [
     ['Insperational & Gospel', 'Qawwali'],
     ['Insperational & Gospel', 'Southern Gospel'],
     ['Insperational & Gospel', 'Traditional Gospel'],
-
     ['J-Pop', 'J-Rock'],
     ['J-Pop', 'J-Synth'],
     ['J-Pop', 'J-Ska'],
     ['J-Pop', 'J-Punk'],
-
     ['Jazz', 'Acid Jazz'],
     ['Jazz', 'Avant-Garde Jazz'],
     ['Jazz', 'Big Band'],
@@ -150,7 +136,6 @@ const genres = [
     ['Jazz', 'Ragtime'],
     ['Jazz', 'Smooth Jazz'],
     ['Jazz', 'Trad Jazz'],
-
     ['Latino', 'Alternativo & Rock Latino'],
     ['Latino', 'Baladas y Boleros'],
     ['Latino', 'Brazilian'],
@@ -161,11 +146,9 @@ const genres = [
     ['Latino', 'Reggaeton y Hip-Hop'],
     ['Latino', 'Regional Mexicano'],
     ['Latino', 'Salsa y Tropical'],
-
     ['Misc', 'Karaoke'],
     ['Misc', 'Instrumental'],
     ['Misc', 'Fitness & Workout'],
-
     ['New Age', 'Environmental'],
     ['New Age', 'Healing'],
     ['New Age', 'Meditation'],
@@ -173,7 +156,6 @@ const genres = [
     ['New Age', 'Relaxation'],
     ['New Age', 'Travel'],
     ['New Age', 'Industrial'],
-
     ['Pop', 'Adult Contemporary'],
     ['Pop', 'Britpop'],
     ['Pop', 'Pop-Rock'],
@@ -183,7 +165,6 @@ const genres = [
     ['Pop', 'French Pop'],
     ['Pop', 'German Pop'],
     ['Pop', 'K-Pop'],
-
     ['R&B-Soul', 'Contemporary R&B'],
     ['R&B-Soul', 'Disco'],
     ['R&B-Soul', 'Doo Wop'],
@@ -192,12 +173,10 @@ const genres = [
     ['R&B-Soul', 'Neo-Soul'],
     ['R&B-Soul', 'Quiet Storm'],
     ['R&B-Soul', 'Soul'],
-
     ['Reggae', 'Dancehall'],
     ['Reggae', 'Dub'],
     ['Reggae', 'Roots Reggae'],
     ['Reggae', 'Ska'],    
-
     ['Rock', 'Adult Alternative'],
     ['Rock', 'American Trad Rock'],
     ['Rock', 'Arena Rock'],
@@ -218,14 +197,12 @@ const genres = [
     ['Rock', 'Southern Rock'],
     ['Rock', 'Surf'],
     ['Rock', 'Tex-Mex'],
-
     ['Singer-Songwriter', 'Alternative Folk'],
     ['Singer-Songwriter', 'Contemporary Folk'],
     ['Singer-Songwriter', 'Contemporary Singer/Songwriter'],
     ['Singer-Songwriter', 'Folk-Rock'],
     ['Singer-Songwriter', 'New Acoustic'],
     ['Singer-Songwriter', 'Traditional Folk'],
-
     ['Soundtrack', 'Foreign Cinema'],
     ['Soundtrack', 'Musicals'],
     ['Soundtrack', 'Original Score'],
@@ -233,14 +210,12 @@ const genres = [
     ['Soundtrack', 'TV Soundtrack'],
     ['Soundtrack', 'Disney'],
     ['Soundtrack', 'Anime'],
-
     ['Tex Mex-Tejano', 'Chicano'],
     ['Tex Mex-Tejano', 'Classic'],
     ['Tex Mex-Tejano', 'Conjunto'],
     ['Tex Mex-Tejano', 'Conjunto Progressive'],
     ['Tex Mex-Tejano', 'New Mex'],
     ['Tex Mex-Tejano', 'Tex-Mex'],
-
     ['Vocal', 'Barbershop'],
     ['Vocal', 'Doo-wop'],
     ['Vocal', 'Standards'],
@@ -248,7 +223,6 @@ const genres = [
     ['Vocal', 'Vocal Jazz'],
     ['Vocal', 'Vocal Pop'],
     ['Vocal', 'Spoken Word'],
-
     ['World', 'Africa'],
     ['World', 'Afro-Beat'],
     ['World', 'Afro-Pop'],
@@ -281,12 +255,56 @@ const genres = [
     ['World', 'Zydeco']
 ];
 
-const filteredArray = genres.filter(r => r[0] === 'World');
 
-const uniqueOptions = new Set();
-filteredArray.forEach(r => uniqueOptions.add(r[1]));
+function makeDropDown(data, level1Filter){
 
-const uniqueList = [...uniqueOptions];
+    const filteredArray = data.filter(r => r[0] === level1Filter);
+
+    const uniqueList = getUniqueValues(filteredArray, 1);
+
+    const selectLevel2 = document.getElementById("level2");
+
+    populateDropDown(selectLevel2, uniqueList)
+}
+
+makeDropDown(data, 'World')
+
+function applyDropDown(){
+    const selectLevel1Value = document.getElementById("level1").value;
+    makeDropDown(data, selectLevel1Value);
+}
+
+function afterDocumentLoads(){
+    populateFirstLevelDropDown();
+    applyDropDown();
+}
+
+function getUniqueValues(data, Index){
+    const uniqueOptions = new Set();
+    data.forEach(r => uniqueOptions.add(r(index)));
+    return [...uniqueOptions];
+}
+
+function populateFirstLevelDropDown(){
+    const uniqueList = getUniqueValues(data, 0);
+    const el = document.getElementById("level1");
+    populateDropDown(el, uniqueList)
+}
+
+function populateDropDown(el, listAsArray){
+    el.innerHTML = "";
+
+    listAsArray.forEach(item => {
+        const option = document.createElement("option");
+        option.textContent = item;
+        el.appendChild(option);
+    });
+}
+
+document.getElementById("level1").addEventListener("change", applyDropDown);
+document.addEventListener('DOMContentLoaded', afterDocumentLoads);
+
+
 
 
 

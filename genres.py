@@ -101,9 +101,7 @@ Genres = {'Alternative': [
     'Enka': [],
 
     'French Pop': [],
-
     'German Folk': [],
-
     'German Pop': [],
 
     'Fitness & Workout': [],
