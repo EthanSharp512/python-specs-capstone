@@ -6,9 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from datetime import datetime
 
-app = Flask(__name__)
-
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
 class User(db.Model):
@@ -44,8 +42,11 @@ class Genre(db.Model):
 
     __tablename__ = "genres"
 
-    genre_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    genre_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     genre = db.Column(db.String(64))
+
+    def __init__(self, genre):
+        self.genre = genre
 
     def __repr__(self):
         return f"""<Genre genre_id={self.genre_id} 
@@ -57,12 +58,16 @@ class Subgenre(db.Model):
 
     __tablename__ = "subgenres"
 
-    sub_genre_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    sub_genre = db.Column(db.String(64))
+    sub_genre_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.genre_id'))
+    sub_genre = db.Column(db.String(64))
 
     #Relationship to genres table
     genre = db.relationship("Genre", backref=db.backref("subgenres", order_by=sub_genre_id))
+
+    def __init__(self, genre_id, sub_genre):
+        self.genre_id = genre_id
+        self.sub_genre = sub_genre
 
     def __repr__(self):
         return f"""<Subgenre sub_genre_id={self.sub_genre_id} 
@@ -84,14 +89,14 @@ class Event(db.Model):
     public = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.genre_id'))
-    sub_genre_id = db.Column(db.Integer, db.ForeignKey('subgenres.sub_genre_id'))
+    sub_genre_id = db.Column(db.Integer, db.ForeignKey('subgenres.sub_genre_id'), nullable=True)
 
     #Relationships to users, genres, and subgenres tables
     user = db.relationship("User", backref=db.backref("events", order_by=event_id))
     genre = db.relationship("Genre", backref=db.backref("events", order_by=event_id))
     sub_genre = db.relationship("Subgenre", backref=db.backref("events", order_by=event_id))
 
-    def __init__(self, event_name, artist, location, event_date, public, user_id, genre_id, sub_genre_id):
+    def __init__(self, event_name, artist, location, event_date, public, user_id, genre_id):
         self.event_name = event_name
         self.artist = artist
         self.location = location
@@ -99,14 +104,13 @@ class Event(db.Model):
         self.public = public
         self.user_id = user_id
         self.genre_id = genre_id
-        self.sub_genre_id = sub_genre_id
 
     def __repr__(self):
         return f"""<Event event_id={self.event_id} 
                    event_name={self.event_name} 
                    artist={self.artist} 
                    location={self.location}
-                   date={self.date} 
+                   event_date={self.event_date} 
                    public={self.public}
                    user_id={self.user_id}
                    genre_id={self.genre_id}
@@ -145,14 +149,15 @@ class Post(db.Model):
 def connect_to_db(app):
     """Connect the database to Flask app."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = environ['URI']
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
 
 
 if __name__ == "__main__":
 
-    from server import app
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = environ['URI']
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # from server import app
     connect_to_db(app)
     print("Connected to DB.")

@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="{{url_for('new_event')}}">Create a new event!</a>
+<a href="{{url_for('new_event')}}">Create a new event!</a><hr>
+
+{% for event in events %}
+    <li>
+        <a href="/my_event/{{ event.event_id }}">
+            <h1>{{ event.event_name }}</h1>
+            <h2>{{ user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}, {{ event.location }}</h2>
+            <h3>{{ event.artist }} - {{ genre.genre }}</h3>
+        </a>
+    </li>
+{% endfor %}
+
+
 {% endblock %}

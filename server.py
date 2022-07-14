@@ -4,11 +4,15 @@ from os import environ
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session, url_for
 from flask_debugtoolbar import DebugToolbarExtension
+from datetime import datetime
 
 from model import User, Genre, Subgenre, Event, Post, connect_to_db, db
-from forms import AddEventForm
+from forms import AddEventForm, AddPostForm
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = environ['URI']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = environ["SECRET_KEY"]
 
@@ -20,10 +24,21 @@ app.jinja_env.undefined = StrictUndefined
 def home():
     return render_template("home.html")
 
+@app.route('/feed')
+def feed():
+    events = Event.query.all()
+    user = User.query.filter_by(user_id=Event.user_id).first()
+    genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
+    return render_template('feed.html', events=events, user=user, genre=genre)
+
+
+
 @app.route('/new', methods=['GET', 'POST'])
 def new_event():
         
     form = AddEventForm()
+
+    form.populate_genre_field()
 
     if form.validate_on_submit():
 
@@ -32,25 +47,68 @@ def new_event():
         location = form.location.data
         event_date = form.event_date.data
         public = form.public.data
-        genre = request.form['genre']
-        subgenre = request.form['subgenre']
-        # genre = form.genre.data
-        # subgenre = form.subgenre.data
+        user_id = 1
+        genre_id = form.genre_id.data
         
-        new_event = Event(event_name, artist, location, event_date, public, genre, subgenre)
+        new_event = Event(event_name, artist, location, event_date, public, user_id, genre_id)
 
         db.session.add(new_event)
         db.session.commit()
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('my_profile'))
 
     return render_template('new_event_form.html', form=form)
+
+@app.route('/event/<int:event_id>')
+def event_details(event_id):
+    """show event details and posts"""
+
+    event = Event.query.filter_by(event_id=event_id).first()
+    user = User.query.filter_by(user_id=Event.user_id).first()
+    genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
+    return render_template('view_event.html', event=event, user=user, genre=genre)
+
 
 @app.route('/profile')
 def my_profile():
 
     events = Event.query.all()
-    return render_template('profile.html', events=events)
+    user = User.query.filter_by(user_id=Event.user_id).first()
+    genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
+    return render_template('profile.html', events=events, user=user, genre=genre)
+
+@app.route('/my_event/<int:event_id>')
+def my_event(event_id):
+    """show event details and posts"""
+
+    event = Event.query.filter_by(event_id=event_id).first()
+    user = User.query.filter_by(user_id=Event.user_id).first()
+    genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
+
+    posts = Post.query.filter_by(event_id=Event.event_id).all()
+    return render_template('my_event.html', event=event, user=user, genre=genre, posts=posts)
+
+@app.route('/add_post/<int:event_id>', methods=['GET', 'POST'])
+def add_post(event_id):
+
+    form = AddPostForm()
+
+    if form.validate_on_submit():
+
+        event_id = Event.query.filter_by(event_id=event_id).first()
+        content_link = form.content_link.data
+        post_caption = form.post_caption.data
+        user_id = 1
+
+        new_post = Post(event_id, content_link, post_caption, user_id)
+
+        db.session.add(new_post)
+        db.session.commit()
+
+        return redirect(url_for('my_event'))
+
+
+    return render_template('my_event.html', form=form)
 
 
 if __name__ == "__main__":

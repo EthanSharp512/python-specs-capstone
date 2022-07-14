@@ -2,4 +2,16 @@
 
 {% block content %}
 
+<h1>Feed</h1><hr>
+{% for event in events %}
+      <li>
+        <a href="/event/{{ event.event_id }}">
+            <h1>{{ event.event_name }}</h1>
+            <h2>{{ user.username }}'s event on {{ event.event_date }}, {{ event.location }}</h2>
+            <h3>{{ event.artist }} - {{ genre.genre }}</h3>
+        </a>
+      </li>
+    {% endfor %}
+
+
 {% endblock %}
