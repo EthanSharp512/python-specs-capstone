@@ -16,12 +16,13 @@
 
 {% for event in events %}
 
-    <div class="card" style="width: 30rem; background-color: #def2ff">
-        <a  class="card-body">
-          <h1 class="card-title">{{ event.event_name }}</h1><br>
-          <span class="card-subtitle mb-2 text-muted">{{ event.artist }} - {{ genre.genre }}</span><br>
-          <span class="card-text">My event on {{ event.event_date.strftime('%Y-%m-%d') }}, {{ event.location }}</span><br>
-          <span href="/my_event/{{ event.event_id }}" class="card-link">Update my event</span>
+
+      <div class="card" style="width: 30rem;">
+        <a href="/my_event/{{ event.event_id }}" class="card-body text-decoration-none text-reset"  style="background-color: #def2ff;">
+          <h1 class="card-title">{{ event.event_name }}</h1>
+          <span class="card-subtitle mb-2 ">{{ event.artist }} - {{ genre.genre }}</span><br>
+          <span class="card-text">My event on {{ event.event_date.strftime('%m-%d-%Y') }}, {{ event.location }}</span><br>
+          <span class="card-link text-muted">Click to update event</span>
         </a>
       </div><br>
 {% endfor %}

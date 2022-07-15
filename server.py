@@ -63,7 +63,7 @@ def new_event():
 def event_details(event_id):
     """show event details and posts"""
 
-    posts = Post.query.filter_by(event_id=Event.event_id).all()
+    posts = Post.query.filter_by(event_id=event_id).all()
     event = Event.query.filter_by(event_id=event_id).first()
     user = User.query.filter_by(user_id=Event.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
@@ -82,13 +82,11 @@ def my_profile():
 def my_event(event_id):
     """show event details and posts"""
 
-    
-
     event = Event.query.filter_by(event_id=event_id).first()
     user = User.query.filter_by(user_id=Event.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
 
-    posts = Post.query.filter_by(event_id=Event.event_id).all()
+    posts = Post.query.filter_by(event_id=event_id).all()
     return render_template('my_event.html', event=event, user=user, genre=genre, posts=posts)
 
 @app.route('/add_post/<int:event_id>', methods=['GET', 'POST'])
