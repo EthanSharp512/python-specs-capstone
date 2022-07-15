@@ -26,3 +26,4 @@ class AddPostForm(FlaskForm):
     content_link = TextAreaField("Paste a link to a video or image taken at the event: ")
     post_caption = TextAreaField("Write a caption for the linked content: ")
     submit = SubmitField('Post')
+

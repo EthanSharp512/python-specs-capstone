@@ -7,7 +7,7 @@
 <h2>{{ user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}, {{ event.location }}</h2>
 <h3>{{ event.artist }} - {{ genre.genre }}</h3><hr>
 
-<a href="{{url_for('add_post', event_id=event.event_id)}}">Add Post</a><hr>
+<a href="{{url_for('add_post', event_id=event.event_id)}}" class="btn btn-outline-primary btn-sm">Add Post</a><hr>
 
 
 {% if posts|length == 0 %}
@@ -18,8 +18,10 @@
 
     {% for post in posts %}
 
-        <a href="{{ post.content_link }}">Click to see post!</a>
-        <span>{{ post.post_caption }}</span>
+        <a href="{{ post.content_link }}" class="btn btn-outline-secondary btn-sm">Click to see post!</a>
+        <span><span class="fw-bold">@{{user.username}}: </span>{{ post.post_caption }}</span>
+        
+        <a href="/delete_post/{{post.post_id}}" class="btn btn-outline-danger btn-sm">Delete Post</a><hr>
 
     {% endfor %}
 

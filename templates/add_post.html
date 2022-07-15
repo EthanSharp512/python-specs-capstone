@@ -2,15 +2,13 @@
 
 {% block content %}
 
-<h1>{{ event.event_name }}</h1>
-<h2>{{ user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}, {{ event.location }}</h2>
-<h3>{{ event.artist }} - {{ genre.genre }}</h3><hr>
+<h1>Fill out the information below to add a post to your event</h1><hr>
 
 <form method="POST">
     {{form.hidden_tag()}}
     {{form.content_link.label}}{{form.content_link()}}
     {{form.post_caption.label}}{{form.post_caption()}}
     {{form.submit()}}
-</form>
+</form><hr>
 
 {% endblock %}

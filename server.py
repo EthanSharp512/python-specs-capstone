@@ -63,10 +63,11 @@ def new_event():
 def event_details(event_id):
     """show event details and posts"""
 
+    posts = Post.query.filter_by(event_id=Event.event_id).all()
     event = Event.query.filter_by(event_id=event_id).first()
     user = User.query.filter_by(user_id=Event.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
-    return render_template('view_event.html', event=event, user=user, genre=genre)
+    return render_template('view_event.html', event=event, user=user, genre=genre, posts=posts)
 
 
 @app.route('/profile')
@@ -80,6 +81,8 @@ def my_profile():
 @app.route('/my_event/<int:event_id>')
 def my_event(event_id):
     """show event details and posts"""
+
+    
 
     event = Event.query.filter_by(event_id=event_id).first()
     user = User.query.filter_by(user_id=Event.user_id).first()
@@ -95,7 +98,6 @@ def add_post(event_id):
 
     if form.validate_on_submit():
 
-        event_id = Event.query.filter_by(event_id=event_id).first()
         content_link = form.content_link.data
         post_caption = form.post_caption.data
         user_id = 1
@@ -105,11 +107,22 @@ def add_post(event_id):
         db.session.add(new_post)
         db.session.commit()
 
-        return redirect(url_for('my_event'))
+        return redirect(url_for('my_event', event_id=event_id))
 
 
-    return render_template('my_event.html', form=form)
+    return render_template('add_post.html', form=form)
 
+@app.route('/delete_post/<int:post_id>', methods=['GET', 'POST'])
+def delete_post(post_id):
+
+    event = Event.query.filter_by(event_id=Post.event_id).first()
+    event_id = event.event_id
+    deleted_post = Post.query.get(post_id)
+
+    db.session.delete(deleted_post)
+    db.session.commit()
+
+    return redirect(url_for('my_event', event_id=event_id))
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the

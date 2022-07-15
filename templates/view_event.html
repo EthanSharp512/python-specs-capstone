@@ -6,9 +6,23 @@
 
 <h1>{{ event.event_name }}</h1>
 <h2>{{ user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}, {{ event.location }}</h2>
-<h3>{{ event.artist }} - {{ genre.genre }}</h3>
+<h3>{{ event.artist }} - {{ genre.genre }}</h3><hr>
 
 
+{% if posts|length == 0 %}
 
+    <a>{{user.username}} hasn't added any posts to this event yet!</a>
+
+{% else %}
+
+    {% for post in posts %}
+
+        <a href="{{ post.content_link }}" class="btn btn-outline-secondary btn-sm">Click to see post!</a>
+        <span><span class="fw-bold">@{{user.username}}: </span>{{ post.post_caption }}</span><hr>
+        
+
+    {% endfor %}
+
+{% endif %}
 
 {% endblock %}
