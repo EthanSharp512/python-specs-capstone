@@ -2,7 +2,7 @@
 from os import environ
 
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, redirect, request, flash, session, url_for
+from flask import Flask, render_template, redirect, jsonify, request, flash, session, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from datetime import datetime
 
@@ -30,7 +30,6 @@ def feed():
     user = User.query.filter_by(user_id=Event.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
     return render_template('feed.html', events=events, user=user, genre=genre)
-
 
 
 @app.route('/new', methods=['GET', 'POST'])
