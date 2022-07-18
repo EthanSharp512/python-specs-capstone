@@ -5,8 +5,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from datetime import datetime
+from server import login_manager
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 db = SQLAlchemy()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 
 class User(db.Model):
@@ -15,18 +23,19 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(64), unique=True)
+    username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(64))
-    first_name = db.Column(db.String(64))
-    last_name = db.Column(db.String(64))
+    password_hash = db.Column(db.String(255))
 
     def __init__(self, username, email, password, first_name, last_name):
         self.username = username
         self.email = email
-        self.password = password
+        self.password_hash = generate_password_hash(password)
         self.first_name = first_name
         self.last_name = last_name
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f"""<User user_id={self.user_id} 
