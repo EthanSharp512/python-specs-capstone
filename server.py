@@ -1,5 +1,3 @@
-"""I Was There"""
-import imp
 from os import environ
 
 from jinja2 import StrictUndefined
@@ -11,9 +9,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from model import User, Genre, Subgenre, Event, Post, connect_to_db, db
 from forms import AddEventForm, AddPostForm, LoginForm, RegistrationForm
 
-login_manager = LoginManager()
-
 app = Flask(__name__)
+
+login_manager = LoginManager(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = environ['URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -42,6 +40,11 @@ login_manager.login_view = 'login'
 #app routes
 
 #home
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -86,7 +89,7 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        user = User(email=form.email.data, username=username.form.data,password=form.password.data)
+        user = User(email=form.email.data, username=form.username.data, password=form.password.data)
 
         db.session.add(user)
         db.session.commit()
@@ -136,15 +139,16 @@ def new_event():
 
 
 #dependent dropdown subgenre
-@app.route("/genre",methods=["POST","GET"])
-def carbrand():  
+@app.route("/subgenre",methods=["POST","GET"])
+def dependent_genre():  
     if request.method == 'POST':
         category_id = request.form['category_id']   
-        subgenre = Subgenre.query.filter_by(genre_id=category_id)  
+        subgenre = Subgenre.query.filter(Subgenre.genre_id == category_id).all()
         OutputArray = []
         for row in subgenre:
+            row = row.__dict__
             outputObj = {
-                'id': row['genre_id'],
+                'id': row['sub_genre_id'],
                 'name': row['sub_genre']}
             OutputArray.append(outputObj)
     return jsonify(OutputArray)

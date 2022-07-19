@@ -14,6 +14,7 @@ class AddEventForm(FlaskForm):
     event_date = DateField('Date of event: ')
     public = BooleanField('Make event public: ')
     genre_id = SelectField('Select a genre: ')
+    sub_genre_id = SelectField('Select a subgenre: ')
     submit = SubmitField('Create Event')
 
 

@@ -1,21 +1,13 @@
 from os import environ
 
-from enum import auto, unique
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from datetime import datetime
-from server import login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager
 
 db = SQLAlchemy()
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
-
 
 class User(db.Model):
     """User of I Was There website"""
