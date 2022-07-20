@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<h1>Fill out the information below to add a post to your event</h1><hr>
+<h1>Fill out the information below to add a post to this event</h1><hr>
 
-<form method="POST">
+<form method="POST" class="d-grid gap-2 d-md-block ms-3 input-group input-group-lg">
     {{form.hidden_tag()}}
-    {{form.content_link.label}}{{form.content_link()}}
-    {{form.post_caption.label}}{{form.post_caption()}}
-    {{form.submit()}}
-</form><hr>
+    <h3>Paste a link to a video or image below:</h3> <br> {{form.content_link(class="input-group-text" )}} <br>
+    <h3>Write a caption describing your post:</h3> <br> {{form.post_caption(class="input-group-text")}} <br>
+    {{form.submit( class="btn btn-outline-primary btn-md" )}}
+</form>
 
 {% endblock %}

@@ -3,11 +3,11 @@ from os import environ
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, jsonify, render_template_string, request, flash, session, url_for, abort
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from model import User, Genre, Subgenre, Event, Post, connect_to_db, db
-from forms import AddEventForm, AddPostForm, LoginForm, RegistrationForm
+from forms import AddEventForm, AddPostForm, UpdateEventForm, LoginForm, RegistrationForm
 
 app = Flask(__name__)
 
@@ -77,11 +77,11 @@ def login():
             next = request.args.get('next')
 
             if next == None or not next[0]=='/':
-                next = url_for('welcome')
+                next = url_for('home')
 
             return redirect(next)
 
-        return render_template('login.html', form=form)
+    return render_template('login.html', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -93,7 +93,7 @@ def register():
 
         db.session.add(user)
         db.session.commit()
-        flash("You have ben registered!")
+        flash("You have been registered!")
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
@@ -105,11 +105,13 @@ def feed():
     events = Event.query.all()
     user = User.query.filter_by(user_id=Event.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
-    return render_template('feed.html', events=events, user=user, genre=genre)
+    sub_genre = Subgenre.query.filter_by(sub_genre_id=Event.sub_genre_id).first()
+    return render_template('feed.html', events=events, user=user, genre=genre, sub_genre=sub_genre)
 
 
 #user event form
 @app.route('/new', methods=['GET', 'POST'])
+@login_required
 def new_event():
         
     form = AddEventForm()
@@ -118,23 +120,23 @@ def new_event():
 
     genres = Genre.query.all()
 
-    if form.validate_on_submit():
+    if request.method == "POST":
 
         event_name = form.event_name.data
         artist = form.artist.data
         location = form.location.data
         event_date = form.event_date.data
         public = form.public.data
-        user_id = 1
+        user_id = current_user.user_id
         genre_id = form.genre_id.data
+        sub_genre_id = form.sub_genre_id.data
         
-        new_event = Event(event_name, artist, location, event_date, public, user_id, genre_id)
+        new_event = Event(event_name, artist, location, event_date, public, user_id, genre_id, sub_genre_id)
 
         db.session.add(new_event)
         db.session.commit()
 
         return redirect(url_for('my_profile'))
-    print('genres')
     return render_template('new_event_form.html', form=form, genres=genres)
 
 
@@ -154,6 +156,28 @@ def dependent_genre():
     return jsonify(OutputArray)
 
 
+@app.route('/update_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def update_event(event_id):
+
+    form = UpdateEventForm()
+    form.populate_genre_field()
+    updated = Event.query.get(event_id)
+
+    if request.method == 'POST':
+        updated.event_name = form.event_name.data
+        updated.artist = form.artist.data
+        updated.location = form.location.data
+        updated.event_date = form.event_date.data
+        updated.public = form.public.data
+        updated.genre_id = form.genre_id.data
+        updated.sub_genre_id = form.sub_genre_id.data
+
+        db.session.commit()
+
+        return redirect(url_for('my_event', event_id=event_id))
+    return render_template('update_event.html', form=form)
+
 #view public event detaials
 @app.route('/event/<int:event_id>')
 def event_details(event_id):
@@ -163,34 +187,40 @@ def event_details(event_id):
     event = Event.query.filter_by(event_id=event_id).first()
     user = User.query.filter_by(user_id=Event.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
-    return render_template('view_event.html', event=event, user=user, genre=genre, posts=posts)
+    sub_genre = Subgenre.query.filter_by(sub_genre_id=Event.sub_genre_id).first()
+    return render_template('view_event.html', event=event, user=user, genre=genre, posts=posts, sub_genre=sub_genre)
 
 
 #view users events
 @app.route('/profile')
+@login_required
 def my_profile():
 
-    events = Event.query.all()
-    user = User.query.filter_by(user_id=Event.user_id).first()
+    events = Event.query.filter_by(user_id=current_user.user_id).all()
+    user = User.query.filter_by(user_id=current_user.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
-    return render_template('profile.html', events=events, user=user, genre=genre)
+    sub_genre = Subgenre.query.filter_by(sub_genre_id=Event.sub_genre_id).first()
+    return render_template('profile.html', events=events, user=user, genre=genre, sub_genre=sub_genre)
 
 
 #view users event details
 @app.route('/my_event/<int:event_id>')
+@login_required
 def my_event(event_id):
     """show event details and posts"""
 
     event = Event.query.filter_by(event_id=event_id).first()
     user = User.query.filter_by(user_id=Event.user_id).first()
     genre = Genre.query.filter_by(genre_id=Event.genre_id).first()
+    sub_genre = Subgenre.query.filter_by(sub_genre_id=Event.sub_genre_id).first()
 
     posts = Post.query.filter_by(event_id=event_id).all()
-    return render_template('my_event.html', event=event, user=user, genre=genre, posts=posts)
+    return render_template('my_event.html', event=event, user=user, genre=genre, posts=posts, sub_genre=sub_genre)
 
 
 #add post from users profile on specific event
 @app.route('/add_post/<int:event_id>', methods=['GET', 'POST'])
+@login_required
 def add_post(event_id):
 
     form = AddPostForm()
@@ -199,7 +229,7 @@ def add_post(event_id):
 
         content_link = form.content_link.data
         post_caption = form.post_caption.data
-        user_id = 1
+        user_id = current_user.user_id
 
         new_post = Post(event_id, content_link, post_caption, user_id)
 
@@ -212,8 +242,48 @@ def add_post(event_id):
     return render_template('add_post.html', form=form)
 
 
+@app.route('/public_post/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def public_post(event_id):
+
+    form = AddPostForm()
+
+    if form.validate_on_submit():
+
+        content_link = form.content_link.data
+        post_caption = form.post_caption.data
+        user_id = current_user.user_id
+
+        new_post = Post(event_id, content_link, post_caption, user_id)
+
+        db.session.add(new_post)
+        db.session.commit()
+
+        return redirect(url_for('event_details', event_id=event_id))
+
+
+    return render_template('add_post.html', form=form)
+
+
+
+#delete post from users specific event
+@app.route('/delete_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def delete_event(event_id):
+
+    user = User.query.filter_by(user_id=Event.user_id).first()
+    user_id = user.user_id
+    deleted_event = Event.query.get(event_id)
+
+    db.session.delete(deleted_event)
+    db.session.commit()
+
+    return redirect(url_for('my_profile', user_id=user_id))
+
+
 #delete post from users specific event
 @app.route('/delete_post/<int:post_id>', methods=['GET', 'POST'])
+@login_required
 def delete_post(post_id):
 
     event = Event.query.filter_by(event_id=Post.event_id).first()
@@ -224,6 +294,20 @@ def delete_post(post_id):
     db.session.commit()
 
     return redirect(url_for('my_event', event_id=event_id))
+
+
+@app.route('/delete_pubpost/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def delete_pubpost(post_id):
+
+    event = Event.query.filter_by(event_id=Post.event_id).first()
+    event_id = event.event_id
+    deleted_post = Post.query.get(post_id)
+
+    db.session.delete(deleted_post)
+    db.session.commit()
+
+    return redirect(url_for('event_details', event_id=event_id))
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the

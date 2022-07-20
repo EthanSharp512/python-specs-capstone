@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br><br>
+<div class="container-sm" style="background-color: #dedede; width: 300px; border-radius: 6px; height: 400px;">
+    <br><p class="text-center">Please fill out all of the login information fields below</p><br>
+    <form method="POST" class="d-grid gap-2 d-md-block ms-2">
+        {{form.hidden_tag()}}
+        {{form.email.label}} {{form.email()}} <br><br> 
+        {{form.password.label}} {{form.password()}} <br><br>
+        {{form.submit(class="btn btn-primary btn-sm")}} <br>
+    </form>
+    
+    <br><br><p class="text-center">Don't have an account?<br><a class="navbar-brand" href="{{url_for('register')}}"> Register here!</a></p>
+</div>
+{% endblock %}

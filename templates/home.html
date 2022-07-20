@@ -1,9 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Welcome to 'I Was There'!</h1><br>
 
-    <h2>Ever wish you had a simple way to relive memories of being at your favorite events?</h2> <br>
+    {% if current_user.is_authenticated %}
 
-    <h3>With 'I Was There' you can! We make it easy to create instances of the concerts or events you attended, to then post your footage and pictures to! You can enter details about the event and add links with captions under each instance you create. Register and log in today to get started!</h3>
+    <br><br><br><h1 class="d-grid gap-2 d-md-block ms-3 text-center">Hello {{current_user.username}}, and welcome to I Was There!</h1><br><br>
+
+    <h2 class="d-grid gap-2 d-md-block ms-3 text-center">Ever wish you had a simple way to relive memories of being at your favorite events?</h2> <br>
+
+    <div style="width: 75%; margin-left: auto;
+    margin-right: auto;">
+    <h3 class="d-grid gap-2 d-md-block m-5 text-center">With I Was There, you can! We make it easy to create instances of the concerts or events you attended, to then post your footage and pictures to! You can enter details about the event and add links with captions under each instance you create.</h3>
+    </div>
+
+    <p class="d-grid gap-2 d-md-block ms-3 text-center">Click on 'Feed' in the navigation bar to see events, or click 'Profile' to add your own!</p>
+
+    {% else %}
+
+    <br><br><br><h1 class="d-grid gap-2 d-md-block ms-3 text-center">Welcome to I Was There!</h1><br><br>
+
+    <h2 class="d-grid gap-2 d-md-block ms-3 text-center">Ever wish you had a simple way to relive memories of being at your favorite events?</h2> <br><br>
+
+    <div style="width: 75%; margin-left: auto;
+    margin-right: auto;">
+    <h3 class="d-grid gap-2 d-md-block ms-3 text-center">With I Was There, you can! We make it easy to create instances of the concerts or events you attended, to then post your footage and pictures to! You can enter details about the event and add links with captions under each instance you create. </h3><br>
+    </div>
+
+    <p class="d-grid gap-2 d-md-block ms-3 text-center">Register and log in today to get started!</p>
+
+    {% endif %}
 {% endblock %}

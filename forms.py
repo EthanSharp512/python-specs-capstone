@@ -8,12 +8,12 @@ from model import Genre, User
 
 class AddEventForm(FlaskForm):
 
-    event_name = StringField('Name of event: ')
-    artist = StringField('Name of artist: ')
-    location = StringField('Location of event: ')
-    event_date = DateField('Date of event: ')
-    public = BooleanField('Make event public: ')
-    genre_id = SelectField('Select a genre: ')
+    event_name = StringField('Name of event: ', validators=[DataRequired()])
+    artist = StringField('Name of artist: ', validators=[DataRequired()])
+    location = StringField('Location of event: ', validators=[DataRequired()])
+    event_date = DateField('Date of event: ', validators=[DataRequired()])
+    public = BooleanField('Make event public: ', validators=[DataRequired()])
+    genre_id = SelectField('Select a genre: ', validators=[DataRequired()])
     sub_genre_id = SelectField('Select a subgenre: ')
     submit = SubmitField('Create Event')
 
@@ -26,8 +26,8 @@ class AddEventForm(FlaskForm):
 
 class AddPostForm(FlaskForm):
 
-    content_link = TextAreaField("Paste a link to a video or image taken at the event: ")
-    post_caption = TextAreaField("Write a caption for the linked content: ")
+    content_link = TextAreaField("Paste a link to a video or image taken at the event: ", validators=[DataRequired()])
+    post_caption = TextAreaField("Write a caption for the linked content: ", validators=[DataRequired()])
     submit = SubmitField('Post')
 
 
@@ -51,3 +51,21 @@ class RegistrationForm(FlaskForm):
     def check_username(self, username):
         if User.query.filter_by(email=self.username.data).first():
             raise ValidationError('That username has already been registered!')
+
+class UpdateEventForm(FlaskForm):
+
+    event_name = StringField('Name of event: ', validators=[DataRequired()])
+    artist = StringField('Name of artist: ', validators=[DataRequired()])
+    location = StringField('Location of event: ', validators=[DataRequired()])
+    event_date = DateField('Date of event: ', validators=[DataRequired()])
+    public = BooleanField('Make event public: ', validators=[DataRequired()])
+    genre_id = SelectField('Select a genre: ', validators=[DataRequired()])
+    sub_genre_id = SelectField('Select a subgenre: ')
+    submit = SubmitField('Update Event')
+
+
+    def populate_genre_field(self):
+
+        genres = Genre.query.all()
+        genreList = [(i.genre_id, i.genre) for i in genres]
+        self.genre_id.choices=genreList

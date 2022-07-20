@@ -9,7 +9,7 @@ from flask_login import UserMixin, LoginManager
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     """User of I Was There website"""
 
     __tablename__ = "users"
@@ -19,15 +19,16 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True)
     password_hash = db.Column(db.String(255))
 
-    def __init__(self, username, email, password, first_name, last_name):
-        self.username = username
+    def __init__(self, email, username, password):
         self.email = email
+        self.username = username
         self.password_hash = generate_password_hash(password)
-        self.first_name = first_name
-        self.last_name = last_name
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def get_id(self):
+           return (self.user_id)
 
     def __repr__(self):
         return f"""<User user_id={self.user_id} 
@@ -97,7 +98,7 @@ class Event(db.Model):
     genre = db.relationship("Genre", backref=db.backref("events", order_by=event_id))
     sub_genre = db.relationship("Subgenre", backref=db.backref("events", order_by=event_id))
 
-    def __init__(self, event_name, artist, location, event_date, public, user_id, genre_id):
+    def __init__(self, event_name, artist, location, event_date, public, user_id, genre_id, sub_genre_id):
         self.event_name = event_name
         self.artist = artist
         self.location = location
@@ -105,6 +106,7 @@ class Event(db.Model):
         self.public = public
         self.user_id = user_id
         self.genre_id = genre_id
+        self.sub_genre_id = sub_genre_id
 
     def __repr__(self):
         return f"""<Event event_id={self.event_id} 

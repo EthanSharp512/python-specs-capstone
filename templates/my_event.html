@@ -4,27 +4,41 @@
 
 
 <h1>{{ event.event_name }}</h1>
-<h2>{{ user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}, {{ event.location }}</h2>
-<h3>{{ event.artist }} - {{ genre.genre }}</h3><hr>
-
-<a href="{{url_for('add_post', event_id=event.event_id)}}" class="btn btn-outline-primary btn-sm">Add Post</a><hr>
+<h2>My event on {{ event.event_date.strftime('%m-%d-%Y')  }}, {{ event.location }}</h2>
+<h3>{{ event.artist }} - {{ event.genre.genre }}{% if event.sub_genre == None %}{% else %} - {{event.sub_genre.sub_genre}}{%endif %}</h3><hr>
 
 
 {% if posts|length == 0 %}
 
+    <div class="d-grid gap-2 d-md-block ms-3 text-center">
+    <a href="{{url_for('add_post', event_id=event.event_id)}}" type="button" class="btn btn-outline-primary btn-sm">Add Post</a><br><br> 
     <a>Click the button above to start adding posts!</a>
+    </div>
+
 
 {% else %}
 
     {% for post in posts %}
 
-        <a href="{{ post.content_link }}" class="btn btn-outline-secondary btn-sm">Click to see post!</a>
-        <span><span class="fw-bold">@{{user.username}}: </span>{{ post.post_caption }}</span>
-        
-        <a href="/delete_post/{{post.post_id}}" class="btn btn-outline-danger btn-sm">Delete Post</a><hr>
+
+    <div class="d-grid gap-2 d-md-block ms-3">
+        <a href="/delete_post/{{post.post_id}}" class="btn btn-outline-danger btn-sm" >Delete Post</a>
+        <a href="{{ post.content_link }}" class="btn btn-outline-secondary btn-sm" >Click to see post!</a>
+        <span><span class="fw-bold">@{{post.user.username}}: </span>{{ post.post_caption }}</span>  
+    </div><hr>
+    
 
     {% endfor %}
 
-{% endif %}
+<div class="d-grid gap-2 d-md-block ms-3 text-center">
+<a href="{{url_for('add_post', event_id=event.event_id)}}" type="button" class="btn btn-outline-primary btn-sm">Add Post</a>
+</div>
 
+{% endif %} 
+
+<footer class="text-center m-3 mt-auto">
+    <a href="/delete_event/{{event.event_id}}" class="btn btn-outline-danger btn-sm">Delete Event</a>
+
+    <a href="/update_event/{{event.event_id}}" class="btn btn-outline-secondary btn-sm">Update Event</a>
+</footer>
 {% endblock %}
