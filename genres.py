@@ -3,6 +3,7 @@ from model import Genre, Subgenre, User, connect_to_db, db
 from flask import Flask
 
 
+#genre id foreign key and subgenre name
 subgenre_data = [
     [1, 'Alternative Rock'],
     [1, 'College Rock'],
@@ -258,11 +259,12 @@ subgenre_data = [
     [26, 'Zydeco']
 ];
 
+#Genre names
 genre_data = ['Alternative', 'Blues', "Children's Music", 'Classical', 'Comedy', 'Country', 'Dance-EMD', 'Easy Listening', 'Electronic', 'Hip-Hop/Rap', 'Holiday', 'Inspirational-Christian & Gospel', 'J-Pop', 'Jazz', 'Latino', 'Misc', 'New Age', 'Pop', 'R&B-Soul', 'Reggae', 'Rock', 'Singer-Songwriter', 'Soundtrack', 'Tex Mex-Tejano', 'Vocal', 'World']
 
 
+#seeds genres
 def load_genres():
-    """Load genres"""
     
     Genre.query.delete()
 
@@ -274,7 +276,7 @@ def load_genres():
     
     db.session.commit()
 
-
+#seeds subgenres
 def load_subgenres():
     """load subgenres"""
 
@@ -289,9 +291,10 @@ def load_subgenres():
 
     db.session.commit()
 
+#seeds admin user
 def load_master_user():
 
-    master_user = User("adminethan", "example@gmail.com", "abc123", "Ethan", "Sharp")
+    master_user = User("Adminethan", "example@gmail.com", "abc123")
 
     db.session.add(master_user)
 
@@ -307,5 +310,3 @@ if __name__ == "__main__":
     load_genres()
     load_subgenres()
     load_master_user()
-#source december 2018
-#https://www.musicgenreslist.com/download-music-genre-list/

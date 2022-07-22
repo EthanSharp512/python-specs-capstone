@@ -1,7 +1,5 @@
-from ast import Pass
-from flask import Flask
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, DateField, BooleanField, SelectField, TextAreaField, PasswordField, ValidationError
+from wtforms import StringField, SubmitField, DateField, BooleanField, SelectField, TextAreaField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo
 
 from model import Genre, User
@@ -12,9 +10,9 @@ class AddEventForm(FlaskForm):
     artist = StringField('Name of artist: ', validators=[DataRequired()])
     location = StringField('Location of event: ', validators=[DataRequired()])
     event_date = DateField('Date of event: ', validators=[DataRequired()])
-    public = BooleanField('Make event public: ', validators=[DataRequired()])
+    public = BooleanField('Make event public: ')
     genre_id = SelectField('Select a genre: ', validators=[DataRequired()])
-    sub_genre_id = SelectField('Select a subgenre: ')
+    sub_genre_id = SelectField('Select a sub genre: ')
     submit = SubmitField('Create Event')
 
 
@@ -58,9 +56,9 @@ class UpdateEventForm(FlaskForm):
     artist = StringField('Name of artist: ', validators=[DataRequired()])
     location = StringField('Location of event: ', validators=[DataRequired()])
     event_date = DateField('Date of event: ', validators=[DataRequired()])
-    public = BooleanField('Make event public: ', validators=[DataRequired()])
+    public = BooleanField('Make event public: ')
     genre_id = SelectField('Select a genre: ', validators=[DataRequired()])
-    sub_genre_id = SelectField('Select a subgenre: ')
+    sub_genre_id = SelectField('Select a sub genre: ')
     submit = SubmitField('Update Event')
 
 

@@ -2,82 +2,47 @@
 
 {% block content %}
 
-    <div class="jumbotron">
+<div class="d-grid gap-2 d-md-block ms-5 input-group input-group-lg">
 
-        <h1>Have a memory you want to share?</h1>
-        <p>Create an event to organize your content!</p>
+    <h1>Have a memory you want to share?</h1><br>
+    <p>Create an event to organize your content!</p>
 
-
-        <form method="POST">
-            {{form.hidden_tag()}} <hr>
-            {{form.event_name.label}} {{form.event_name()}} <hr>
-            {{form.artist.label}} {{form.artist()}} <hr>
-            {{form.location.label}} {{form.location()}} <hr>
-            {{form.event_date.label}} {{form.event_date()}} <hr>
-            {{form.public.label}} {{form.public()}} <hr>
-            {{form.genre_id.label}} {{form.genre_id()}}<hr>
-            {{form.sub_genre_id.label}} {{form.sub_genre_id()}}<hr>
-            {{form.submit()}}
-        </form>
-         
-        
-    </div>
-
+    <form method="POST">
+        {{form.hidden_tag()}} <br>
+        {{form.event_name.label}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{form.event_name()}} <br><br>
+        {{form.artist.label}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{form.artist()}} <br><br>
+        {{form.location.label}} &nbsp&nbsp&nbsp{{form.location()}} <br><br>
+        {{form.event_date.label}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{form.event_date()}} <br><br>
+        {{form.public.label}} &nbsp&nbsp{{form.public()}} <br><br>
+        {{form.genre_id.label}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{form.genre_id()}}<br><br>
+        {{form.sub_genre_id.label}} &nbsp&nbsp{{form.sub_genre_id()}}<br><br>
+        {{form.submit(class="btn btn-outline-primary btn-md")}}
+    </form>    
+</div>
 
     <script>
-        $(document).ready(function () {
-            // $("#genre").change(function () {
-            //     var url=$("#eventform").attr("subgenre");
-
-            //     var genre_id=$(this).val();
-
-            //     $.ajax({
-            //         url: "/subgenre",
-            //         method: "POST",
-            //         data: { type: type, category_id: genre_id },
-            //         dataType: "json",
-            //         success: function (data) { //alert(category_id)
-            //             var html = "";
-            //             for (var count = 0; count < data.length; count++) {
-            //                 html += '<option value="' + data[count].id + '">' + data[count].name + "</option>";
-            //             }
-            //             if (type == "genredata") {
-            //                 $("#genre").html(html);
-            //                 $("#genre").selectpicker("refresh");
-            //             } else {
-            //                 $("#subgenre").html(html);
-            //                 $("#subgenre").selectpicker("refresh");
-            //             }
-            //         },
-            //     });
-
-            // })
-
-            // $("#genre").selectpicker();
-
-            // $("#subgenre").selectpicker();
-
-            function load_data(category_id) {
-                $.ajax({
-                    url: "/subgenre",
-                    method: "POST",
-                    data: {category_id: category_id },
-                    dataType: "json",
-                    success: function (data) {
-                        var html = "";
-                        for (var count = 0; count < data.length; count++) {
-                            html += '<option value="' + data[count].id + '">' + data[count].name + "</option>";
-                            console.log(html)
-                        }
-                        $("#sub_genre_id").html(html);
-                    },
-                });
-            };
-
-            $(document).on("change", "#genre_id", function () {
-                var category_id = $("#genre_id").val();
-                load_data(category_id);
+    $(document).ready(function () {
+        function load_data(category_id) {
+            $.ajax({
+                url: "/subgenre",
+                method: "POST",
+                data: {category_id: category_id },
+                dataType: "json",
+                success: function (data) {
+                    var html = "";
+                    for (var count = 0; count < data.length; count++) {
+                        html += '<option value="' + data[count].id + '">' + data[count].name + "</option>";
+                        console.log(html)
+                    }
+                    $("#sub_genre_id").html(html);
+                },
             });
+        };
+        $(document).on("change", "#genre_id", function () {
+            var category_id = $("#genre_id").val();
+            load_data(category_id);
         });
-    </script>
+    });
+</script>
+
 {% endblock %}

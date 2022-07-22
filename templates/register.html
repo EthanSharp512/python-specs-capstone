@@ -2,20 +2,20 @@
 
 {% block content %}
 
-
 <br><br>
-<div class="container-sm" style="background-color: #dedede; width: 300px; border-radius: 6px; height: 450px;">
-    <br><p class="text-center">Please fill out all of the registration information fields below</p>
-    <form method="POST" class="d-grid gap-2 d-md-block ms-2">
+<div class="container-sm" style="background-color: #eeeded; width: 360px; border-radius: 6px; height: 460px; border: solid black 1px;">
+    <br><p class="text-center">Please fill out all of the registration <br> information fields below</p><br>
+
+    <form method="POST" class="d-grid gap-2 d-md-block ">
         {{form.hidden_tag()}}
-        {{form.email.label}} {{form.email}} <br><br>
-        {{form.username.label}} {{form.username()}} <br><br>
-        {{form.password.label}} {{form.password()}} <br><br>
-        {{form.pass_confirm.label}} {{form.pass_confirm}} <br><br>
-        {{form.submit(class="btn btn-primary btn-sm")}} <br>
+        &nbsp{{form.email.label}}: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{form.email}} <br><br>
+        &nbsp{{form.username.label}}: &nbsp&nbsp{{form.username()}} <br><br>
+        &nbsp{{form.password.label}}: &nbsp&nbsp&nbsp{{form.password()}} <br><br>
+        &nbsp{{form.pass_confirm.label}}: {{form.pass_confirm}} <br><br>
+        <a class="d-flex justify-content-center">{{form.submit(class="btn btn-primary btn-sm")}}</a><br>
     </form>
-    
-    <br><p class="text-center">Already have an account?<br><a class="navbar-brand" href="{{url_for('login')}}">Login here!</a></p>
+
+    <p class="text-center">Already have an account?<br><a class="navbar-brand" href="{{url_for('login')}}">&nbsp&nbsp&nbspLogin here!</a></p>
 </div>
 
 {% endblock %}

@@ -2,20 +2,22 @@
 
 {% block content %}
 
-<h1 class="d-grid gap-2 d-md-block ms-3 text-center">Feed</h1><hr>
+<br><h1 class="d-grid gap-2 d-md-block ms-3 text-center">Feed</h1><br><hr>
+
 {% for event in events %}
       
 {% if event.public == True %}
-  <div class="card ms-3" style="width: 30rem;">
-    <a href="/event/{{ event.event_id }}" class="card-body text-decoration-none text-reset"  style="background-color: #def2ff;">
+  <div class="card ms-3" style="width: 35rem;">
+    <a href="/event/{{ event.event_id }}" class="card-body text-decoration-none text-reset"  style="background-color: #def2ff; border: solid black 1px; border-radius: 4px;">
       <h1 class="card-title">{{ event.event_name }}</h1>
-      <span class="card-subtitle mb-2 ">{{ event.artist }} - {{ event.genre.genre }}{% if event.sub_genre == None %}{% else %} - {{event.sub_genre.sub_genre}}{%endif %}</span><br>
-      <span class="card-text">{{ event.user.username }}'s event on {{ event.event_date.strftime('%m-%d-%Y') }}, {{ event.location }}</span><br>
+      <span class="card-subtitle mb-2 ">Artist: {{ event.artist }} &nbsp-&nbsp Genre: {{ event.genre.genre }}{% if event.sub_genre == None %}{% else %} ({{event.sub_genre.sub_genre}}){%endif %}</span><br>
+      <span class="card-text">{{ event.user.username }}'s event on {{ event.event_date.strftime('%m-%d-%Y') }} <br> {{ event.location }}</span><br>
       <span class="card-link text-muted">Click to view event</span>
     </a>
   </div><br>
-{% endif %}
-  {% endfor %}
 
+{% endif %}
+
+{% endfor %}
 
 {% endblock %}

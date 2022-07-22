@@ -2,36 +2,33 @@
 
 {% block content %}
 
-
-
-<h1>{{ event.event_name }}</h1>
-<h2>{{ event.user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}, {{ event.location }}</h2>
-<h3>{{ event.artist }} - {{ genre.genre }}{% if sub_genre == None %}{% else %} - {{sub_genre.sub_genre}}{%endif %}</h3><hr>
-
+<div class="d-grid gap-2 d-md-block ms-3">
+    <h1>{{ event.event_name }}</h1>
+    <h3>Artist: {{ event.artist }} &nbsp-&nbsp Genre: {{ genre.genre }}{% if sub_genre == None %}{% else %} ({{sub_genre.sub_genre}}){%endif %}</h3>
+    <h3>{{ event.user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}</h3>
+    <h3>{{ event.location }}</h3>
+</div><hr>
 
 {% if posts|length == 0 %}
-
-    <a>{{event.user.username}} hasn't added any posts to this event yet, be the first!</a>
-
+    <div class="text-center">
+    <a >{{event.user.username}} hasn't added any posts to this event yet, be the first!</a>
+    </div><br>
 {% else %}
 
-    {% for post in posts %}
-
-
-        <div class="d-grid gap-2 d-md-block ms-3">
-            <a href="{{ post.content_link }}" class="btn btn-outline-secondary btn-sm">Click to see post!</a>
-            {% if current_user.user_id == post.user_id %}
-            <a href="/delete_pubpost/{{post.post_id}}" class="btn btn-outline-danger btn-sm">Delete Post</a>
-            {% endif %}
-            <span><span class="fw-bold">@{{post.user.username}}: </span>{{ post.post_caption }}</span>
-        </div><hr>  
-
-    {% endfor %}
-
-    <div class="d-grid gap-2 d-md-block ms-3 text-center">
-    <a href="{{url_for('public_post', event_id=event.event_id)}}" class="btn btn-outline-primary btn-sm">Add Post</a>
-    </div>
+{% for post in posts %}
+<div class="d-grid gap-2 d-md-block ms-3">
+    {% if current_user.user_id == post.user_id %}
+    <a href="{{url_for('delete_pubpost', post_id=post.post_id, event_id=event.event_id)}}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+    {% endif %}
+    <a href="{{ post.content_link }}" target="_blank" class="btn btn-outline-secondary btn-sm">Click to see post!</a>
+    <span><span class="fw-bold">@{{post.user.username}}: </span>{{ post.post_caption }}</span>
+</div><hr>  
+{% endfor %}
 
 {% endif %}
+
+<div class="d-grid gap-2 d-md-block ms-3 text-center">
+    <a href="{{url_for('public_post', event_id=event.event_id)}}" class="btn btn-outline-primary btn-sm">Add Post</a>
+</div>
 
 {% endblock %}
