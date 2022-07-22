@@ -5,7 +5,7 @@
 <div class="d-grid gap-2 d-md-block ms-3">
     <h1>{{ event.event_name }}</h1>
     <h3>Artist: {{ event.artist }} &nbsp-&nbsp Genre: {{ genre.genre }}{% if sub_genre == None %}{% else %} ({{sub_genre.sub_genre}}){%endif %}</h3>
-    <h3>{{ event.user.username }}'s event on {{ event.event_date.strftime('%Y-%m-%d')  }}</h3>
+    <h3>{{ event.user.username }}'s event on {{ event.event_date.strftime('%m-%d-%Y')  }}</h3>
     <h3>{{ event.location }}</h3>
 </div><hr>
 
