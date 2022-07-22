@@ -88,7 +88,21 @@ To get a local copy up and running follow these steps.
    ```sh
    pip3 install -r requirements.txt 
    ```
-
+3. Create a db in postgresql
+4. Link to app
+5. Run model.py in interpreter
+  ```sh
+   $ python -i model.py
+   >>> db.create_all()
+   ```
+6. Run genres.py to seed genre data
+  ```sh
+   $ python genres.py
+   ```
+6. Run server.py to start flask app and open in localhost:5000
+  ```sh
+   $ python server.py
+   ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
