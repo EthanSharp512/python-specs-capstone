@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Email, EqualTo
 
 from model import Genre, User
 
+
 class AddEventForm(FlaskForm):
 
     event_name = StringField('Name of event: ', validators=[DataRequired()])
@@ -15,12 +16,12 @@ class AddEventForm(FlaskForm):
     sub_genre_id = SelectField('Select a sub genre: ')
     submit = SubmitField('Create Event')
 
-
     def populate_genre_field(self):
 
         genres = Genre.query.all()
         genreList = [(i.genre_id, i.genre) for i in genres]
         self.genre_id.choices=genreList
+
 
 class AddPostForm(FlaskForm):
 
@@ -49,6 +50,7 @@ class RegistrationForm(FlaskForm):
     def check_username(self, username):
         if User.query.filter_by(email=self.username.data).first():
             raise ValidationError('That username has already been registered!')
+
 
 class UpdateEventForm(FlaskForm):
 

@@ -22,9 +22,7 @@ app.jinja_env.undefined = StrictUndefined
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
 #app routes
-
 
 #gets current user
 @login_manager.user_loader
