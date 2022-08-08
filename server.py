@@ -4,6 +4,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, jsonify, request, flash, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_migrate import Migrate
 
 from model import User, Genre, Subgenre, Event, Post, connect_to_db, db
 from forms import AddEventForm, AddPostForm, UpdateEventForm, LoginForm, RegistrationForm
