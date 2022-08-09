@@ -3,13 +3,17 @@ from os import environ
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, jsonify, request, flash, url_for
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
+import sqlalchemy
 
 from model import User, Genre, Subgenre, Event, Post, connect_to_db, db
 from forms import AddEventForm, AddPostForm, UpdateEventForm, LoginForm, RegistrationForm
 
 app = Flask(__name__)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 login_manager = LoginManager(app)
 
@@ -22,6 +26,7 @@ app.jinja_env.undefined = StrictUndefined
 
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
 
 #app routes
 
