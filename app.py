@@ -17,7 +17,8 @@ migrate = Migrate(app, db)
 
 login_manager = LoginManager(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = environ['URI']
+# app.config['SQLALCHEMY_DATABASE_URI'] = environ['URI']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xjnfkdqcajhlti:8c50b770fb757be4c76c35b5f7eb65cfec6a1e291183ca90ef59df4b243f0e58@ec2-52-207-15-147.compute-1.amazonaws.com:5432/d570t13ujc72v3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = environ["SECRET_KEY"]
